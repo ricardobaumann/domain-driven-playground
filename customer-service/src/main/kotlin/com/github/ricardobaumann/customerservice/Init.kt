@@ -12,13 +12,13 @@ class Init(private val kafkaTemplate: KafkaTemplate<String,String>,
     private val logger = LoggerFactory.getLogger(javaClass)
 
     override fun run(vararg args: String?) {
-       /* kafkaTemplate.send("customer", """
+       kafkaTemplate.send("customer", """
             "name": "joe"
         """.trimIndent())
                 .addCallback(
                     {result -> logger.info("Success ${result?.recordMetadata?.offset()}")},
-                    {exception -> logger.error("Failed to send due to ${exception.message}")})*/
+                    {exception -> logger.error("Failed to send due to ${exception.message}")})
 
-        //customerRepo.save(Customer(name = "test", addresses = listOf(Address(description = "nice place"))))
+        customerRepo.save(Customer(name = "test"))
     }
 }
