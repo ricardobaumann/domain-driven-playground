@@ -2,6 +2,7 @@ package com.github.ricardobaumann.customerservice
 
 import org.slf4j.LoggerFactory
 import org.springframework.data.rest.core.annotation.HandleAfterCreate
+import org.springframework.data.rest.core.annotation.HandleAfterDelete
 import org.springframework.data.rest.core.annotation.HandleAfterSave
 import org.springframework.data.rest.core.annotation.RepositoryEventHandler
 import org.springframework.stereotype.Component
@@ -28,6 +29,16 @@ class RepoEventHandler(private val domainEventRepo: DomainEventRepo) {
     fun handleAfterSaveAddress(address: Address){
         logger.info("Saving/updating $address")
         domainEventRepo.updated(address.id, ResourceType.ADDRESS, address)
+    }
+
+    @HandleAfterDelete
+    fun handleAfterDeleteCustomer(customer: Customer) {
+        domainEventRepo.deleted(customer.id, ResourceType.CUSTOMER)
+    }
+
+    @HandleAfterDelete
+    fun handleAfterDeleteAddress(address: Address) {
+        domainEventRepo.deleted(address.id, ResourceType.ADDRESS)
     }
 
     @HandleAfterCreate
